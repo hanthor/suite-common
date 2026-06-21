@@ -6,12 +6,16 @@ that share a common scaffold. It completes the set started by
 
 | App | Role | Status |
 |-----|------|--------|
-| **Letters** | Word processor | exists (upstream) |
+| **[Letters](https://github.com/hanthor/letters)** | Word processor | exists; **migrating onto suite-common** (reference consumer) |
 | **[Tables](https://github.com/hanthor/tables)** | Spreadsheet (Excel-equivalent) | this suite |
 | **[Decks](https://github.com/hanthor/decks)** | Presentation (PowerPoint-equivalent) | this suite |
 
-This repo, **`suite-common`**, holds the shared code consumed by Tables and Decks as a
-**meson subproject**.
+This repo, **`suite-common`**, holds the shared code consumed by all three apps as a
+**meson subproject**. It is **extracted from Letters** — Letters is both the source of the
+pattern and the first consumer, so migrating Letters onto `suite-common` is how we dogfood
+the extraction. Upstream Letters lives at
+[codeberg.org/eyekay/letters](https://codeberg.org/eyekay/letters); the suite tracks the
+fork at [hanthor/letters](https://github.com/hanthor/letters).
 
 ## The Letters pattern (what we inherit)
 
