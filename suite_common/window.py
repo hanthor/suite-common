@@ -55,6 +55,15 @@ class SuiteWindow(Adw.ApplicationWindow):
     def set_main_content(self, widget):
         self.toolbar_view.set_content(widget)
 
+    def webview_send(self, name, data=None):
+        """Send a message to the webview bridge, if one is attached.
+
+        Used by keyboard shortcuts (undo/redo) dispatched from
+        SuiteApplication._on_undo / _on_redo.
+        """
+        if hasattr(self, 'webview') and self.webview is not None:
+            self.webview.send(name, data)
+
     def add_action_bar(self, primary=(), extended=(), more_menu=None):
         """Letters-style centered action toolbar with a responsive split.
 

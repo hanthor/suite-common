@@ -24,20 +24,91 @@ class SuiteApplication(Adw.Application):
         self.app_name = app_name
         self.version = version
 
-        # Apps may override/extend this before/after super().__init__.
+        # Keyboard shortcuts shown in the Ctrl+? overlay.
+        # Marked for translation with _().  Apps may extend after super().__init__().
         self.shortcuts = {
-            'General': [
-                ('<primary>o', 'Open'),
-                ('<primary>s', 'Save'),
-                ('<primary>comma', 'Preferences'),
-                ('<primary>q', 'Quit'),
+            _('File'): [
+                ('<primary>n', _('New')),
+                ('<primary>o', _('Open')),
+                ('<primary>s', _('Save')),
+                ('<primary><shift>s', _('Save As')),
+                ('<primary>w', _('Close')),
+                ('<primary>p', _('Print / Export')),
+                ('<primary>q', _('Quit')),
+            ],
+            _('Edit'): [
+                ('<primary>z', _('Undo')),
+                ('<primary><shift>z', _('Redo')),
+            ],
+            _('View'): [
+                ('<primary>comma', _('Preferences')),
+                ('<primary>question', _('Keyboard Shortcuts')),
             ],
         }
 
+        # ── File ────────────────────────────────────────────────────
+        self._add_action('new', self._on_new, ['<primary>n'])
+        self._add_action('open', self._on_open, ['<primary>o'])
+        self._add_action('save', self._on_save, ['<primary>s'])
+        self._add_action('save_as', self._on_save_as, ['<primary><shift>s'])
+        self._add_action('close', self._on_close, ['<primary>w'])
+        self._add_action('print', self._on_print, ['<primary>p'])
+
+        # ── Edit ────────────────────────────────────────────────────
+        self._add_action('undo', self._on_undo, ['<primary>z'])
+        self._add_action('redo', self._on_redo, ['<primary><shift>z'])
+
+        # ── App ─────────────────────────────────────────────────────
         self._add_action('quit', lambda *a: self.quit(), ['<primary>q'])
         self._add_action('about', self._on_about)
         self._add_action('preferences', self._on_preferences, ['<primary>comma'])
         self._add_action('shortcuts', self._on_shortcuts, ['<primary>question'])
+
+    # ── Window dispatch ──────────────────────────────────────────────
+
+    def _win(self):
+        """Return the active window, or None."""
+        return self.props.active_window
+
+    def _call_win(self, method, *args):
+        """Call a method on the active window if it exists."""
+        win = self._win()
+        if win and hasattr(win, method):
+            getattr(win, method)(*args)
+
+    # ── File actions ────────────────────────────────────────────────
+
+    def _on_new(self, *a):
+        self.activate()  # Opens a new window
+
+    def _on_open(self, *a):
+        self._call_win('open_file')
+
+    def _on_save(self, *a):
+        self._call_win('save_file')
+
+    def _on_save_as(self, *a):
+        self._call_win('save_file_as')
+
+    def _on_close(self, *a):
+        win = self._win()
+        if win and hasattr(win, 'close'):
+            win.close()
+        elif win:
+            win.close()
+
+    def _on_print(self, *a):
+        self._call_win('export_pdf')
+
+    # ── Edit actions ────────────────────────────────────────────────
+
+    def _on_undo(self, *a):
+        self._call_win('webview_send', 'undo')
+
+    def _on_redo(self, *a):
+        self._call_win('webview_send', 'redo')
+
+    # ── Lifecycle ───────────────────────────────────────────────────
 
     def do_activate(self):
         win = self.props.active_window
@@ -46,9 +117,9 @@ class SuiteApplication(Adw.Application):
         win.present()
 
     def do_open(self, files, n_files, hint):
-        # Minimal: just present the window for now. File handling lands in the
-        # file-I/O base class slice (suite-common #4).
         self.activate()
+
+    # ── Helpers ─────────────────────────────────────────────────────
 
     def _add_action(self, name, callback, accels=None):
         action = Gio.SimpleAction.new(name, None)
