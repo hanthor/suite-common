@@ -55,7 +55,18 @@ himachal flatpak build+run pipeline. UI built in code to minimize first-build ri
 - [ ] decks scaffold mirroring tables
 - [ ] suite-common #2 WebKit bridge (port from Letters window.py new_webview/run_js)
 
-### Issue progress (goal: implement+build+test all open issues)
+### FINAL: all 31 issues CLOSED (suite-common 5, tables 10, decks 11, letters 5).
+- Every greenfield issue built as a Flatpak on himachal and headlessly tested
+  (tables: verify/csvtest/fmttest/multitest/styletest; decks: verify/slidetest/
+  presenttest/decktest/pdftest; suite-common: CI green; letters: just verify).
+- Letters kept minimal per user direction: consumes suite-common (subproject) +
+  3 pre-existing build bugs fixed; its design idioms were ported INTO the suite
+  (raised toolbar, responsive action toolbar, sizing, a11y, menu access keys).
+- gnome-gui-spec audits: Tables 87/92, Decks 88/92 (AUDIT-GNOME-GUI-SPEC.md each).
+- Remaining nice-to-haves (NOT issues): GSettings-backed prefs, empty-state
+  StatusPage, AT-SPI bridging for the web canvases.
+
+### Issue progress (historical)
 - CLOSED (verified on himachal): suite-common #1-#5 (all); tables #1-#6, #8, #9, #10;
   decks #1-#11 (all).  (25 issues)
 - Test recipes per repo: tables `just verify|csvtest|fmttest|multitest`;
