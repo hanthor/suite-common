@@ -15,6 +15,7 @@ class SuitePreferencesDialog(Adw.PreferencesDialog):
     def __init__(self, app_name='App'):
         super().__init__()
         self.set_title('Preferences')
+        self.set_search_enabled(True)
         page = Adw.PreferencesPage(title='General',
                                    icon_name='preferences-system-symbolic')
         self.general_group = Adw.PreferencesGroup(title='Appearance')

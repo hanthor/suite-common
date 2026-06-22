@@ -95,9 +95,14 @@ class SuiteWindow(Adw.ApplicationWindow):
         self.toast_overlay.add_toast(Adw.Toast(title=text, timeout=timeout))
 
     def _build_menu(self):
+        # Access keys (mnemonics) per the GNOME HIG, as in Letters.
         menu = Gio.Menu()
-        menu.append('Preferences', 'app.preferences')
-        menu.append('Keyboard Shortcuts', 'app.shortcuts')
-        menu.append('About', 'app.about')
-        menu.append('Quit', 'app.quit')
+        section = Gio.Menu()
+        section.append('_Preferences', 'app.preferences')
+        section.append('_Keyboard Shortcuts', 'app.shortcuts')
+        menu.append_section(None, section)
+        about = Gio.Menu()
+        about.append('_About', 'app.about')
+        about.append('_Quit', 'app.quit')
+        menu.append_section(None, about)
         return menu
