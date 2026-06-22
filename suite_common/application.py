@@ -56,7 +56,7 @@ class SuiteApplication(Adw.Application):
 
         # ── Edit ────────────────────────────────────────────────────
         self._add_action('undo', self._on_undo, ['<primary>z'])
-        self._add_action('redo', self._on_redo, ['<primary><shift>z'])
+        self._add_action('redo', self._on_redo, ['<primary><shift>z', '<primary>y'])
 
         # ── App ─────────────────────────────────────────────────────
         self._add_action('quit', lambda *a: self.quit(), ['<primary>q'])

@@ -1,9 +1,12 @@
 # suite-common
 
 Shared scaffold for the [hanthor](https://github.com/hanthor) GNOME office suite:
-[**Letters**](https://github.com/hanthor/letters) (word processor),
-[**Tables**](https://github.com/hanthor/tables) (spreadsheet), and
-[**Decks**](https://github.com/hanthor/decks) (presentations).
+
+| App | Repo |
+|-----|------|
+| **Letters** | [hanthor/letters](https://github.com/hanthor/letters) |
+| **Tables** | [hanthor/tables](https://github.com/hanthor/tables) |
+| **Decks** | [hanthor/decks](https://github.com/hanthor/decks) |
 
 Suite-common is extracted from Letters and consumed by all three apps as a
 [meson subproject](https://mesonbuild.com/Subprojects.html).  It provides the
